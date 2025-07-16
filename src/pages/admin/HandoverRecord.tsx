@@ -1,13 +1,16 @@
-import userStore from "../../store/userStore";
 import { useEffect } from "react";
+import handoverRecordStore from "../../store/handoverRecord";
+import formatDate from "../../utils/formatDate";
 import { MdEdit, MdDeleteForever } from "react-icons/md";
 
-function User() {
-  const { data, getAllUser } = userStore();
+function HandoverRecord() {
+  const { data, getAllHandoverRecord } = handoverRecordStore();
 
   useEffect(() => {
-    getAllUser();
+    getAllHandoverRecord();
   }, []);
+
+  console.log(data);
 
   return (
     <div className="w-full">
@@ -23,22 +26,28 @@ function User() {
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" className="px-6 py-3 text-center font-semibold">
-                Full Name
+                Số ký hiệu
               </th>
               <th scope="col" className="px-6 py-3 text-center font-semibold">
-                Email
+                Ghi chú
               </th>
               <th scope="col" className="px-6 py-3 text-center font-semibold">
-                Role
+                Phòng ban A
               </th>
               <th scope="col" className="px-6 py-3 text-center font-semibold">
-                Phòng Ban
+                Phòng ban B
               </th>
               <th scope="col" className="px-6 py-3 text-center font-semibold">
-                Địa chỉ phòng ban
+                Người kí bên A
               </th>
               <th scope="col" className="px-6 py-3 text-center font-semibold">
-                ACTION
+                Người kí bên B
+              </th>
+              <th scope="col" className="px-6 py-3 text-center font-semibold">
+                Ngày Tạo
+              </th>
+              <th scope="col" className="px-6 py-3 text-center font-semibold">
+                Trạng thái
               </th>
             </tr>
           </thead>
@@ -49,14 +58,18 @@ function User() {
                   key={index}
                   className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-100 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200 text-gray-700 dark:text-gray-400"
                 >
-                  <td className="px-6 py-4 text-center">{item?.full_name}</td>
-                  <td className="px-6 py-4 text-center">{item?.email}</td>
-                  <td className="px-6 py-4 text-center">{item?.role}</td>
+                  <td className="px-6 py-4 text-center">{item?.so_ky_hieu}</td>
+                  <td className="px-6 py-4 text-center">{item?.note}</td>
+                  <td className="px-6 py-4 text-center">{item.ben_a?.name}</td>
+                  <td className="px-6 py-4 text-center">{item.ben_b?.name}</td>
                   <td className="px-6 py-4 text-center">
-                    {item?.department?.name}
+                    {item?.signed_a_by?.full_name}
                   </td>
                   <td className="px-6 py-4 text-center">
-                    {item?.department?.address}
+                    {item?.signed_b_by?.full_name}
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    {formatDate(item?.created_at)}
                   </td>
                   <td className="px-6 py-4 text-center">
                     <div className="flex gap-2 justify-center">
@@ -73,4 +86,4 @@ function User() {
   );
 }
 
-export default User;
+export default HandoverRecord;

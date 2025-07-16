@@ -15,3 +15,25 @@ export const login = async (data: any) => {
     data,
   });
 };
+
+export const getAllUser = async () => {
+  return await axiosConfig({
+    method: "get",
+    url: "/user",
+  });
+};
+
+export const updateRole = async (data: string) => {
+  return await axiosConfig({
+    method: "get",
+    url: "/user/updateRole",
+    data,
+  });
+};
+
+export const deleteUser = async (id: string) => {
+  return await axiosConfig({
+    method: "delete",
+    url: `/user/deleteUser?id=${id}`,
+  });
+};

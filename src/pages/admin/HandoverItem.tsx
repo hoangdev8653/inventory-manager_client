@@ -1,14 +1,4 @@
-import userStore from "../../store/userStore";
-import { useEffect } from "react";
-import { MdEdit, MdDeleteForever } from "react-icons/md";
-
-function User() {
-  const { data, getAllUser } = userStore();
-
-  useEffect(() => {
-    getAllUser();
-  }, []);
-
+function HandoverItem() {
   return (
     <div className="w-full">
       <div className="flex justify-end">
@@ -43,29 +33,28 @@ function User() {
             </tr>
           </thead>
           <tbody>
-            {Array.isArray(data?.content) &&
-              data?.content?.map((item: any, index: number) => (
-                <tr
-                  key={index}
-                  className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-100 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200 text-gray-700 dark:text-gray-400"
-                >
-                  <td className="px-6 py-4 text-center">{item?.full_name}</td>
-                  <td className="px-6 py-4 text-center">{item?.email}</td>
-                  <td className="px-6 py-4 text-center">{item?.role}</td>
-                  <td className="px-6 py-4 text-center">
-                    {item?.department?.name}
-                  </td>
-                  <td className="px-6 py-4 text-center">
-                    {item?.department?.address}
-                  </td>
-                  <td className="px-6 py-4 text-center">
-                    <div className="flex gap-2 justify-center">
-                      <MdEdit className="text-xl cursor-pointer hover:opacity-60" />
-                      <MdDeleteForever className="text-xl cursor-pointer hover:opacity-70" />
-                    </div>
-                  </td>
-                </tr>
-              ))}
+            {/* {Array.isArray(data?.content) &&
+                data?.content?.map((item: any, index: number) => (
+                  <tr
+                    key={index}
+                    className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-100 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200 text-gray-700 dark:text-gray-400"
+                  >
+                    <td className="px-6 py-4 text-center">{item.full_name}</td>
+                    <td className="px-6 py-4 text-center">{item.email}</td>
+                    <td className="px-6 py-4 text-center">{item.role}</td>
+                    <td className="px-6 py-4 text-center">
+                      {item.department?.name || "N/A"}
+                    </td>
+                    <td className="px-6 py-4 text-center">
+                      {item.department?.address || "N/A"}
+                    </td>
+                    <td className="px-6 py-4 text-center">
+                      <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded-md">
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))} */}
           </tbody>
         </table>
       </div>
@@ -73,4 +62,4 @@ function User() {
   );
 }
 
-export default User;
+export default HandoverItem;
