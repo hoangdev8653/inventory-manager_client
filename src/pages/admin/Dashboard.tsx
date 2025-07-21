@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import { useLocation, Link } from "react-router-dom";
-import { Menu, Search, Bell, Mail } from "lucide-react";
-import { FaFileAlt, FaPlusCircle, FaSearch, FaUser } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { Menu, Search, Bell } from "lucide-react";
+import { FaFileAlt, FaPlusCircle, FaUser } from "react-icons/fa";
 import Logo from "../../assets/images/logo.png";
-import user_deafaute from "../../assets/images/user_deafaute.jpg";
 import User from "./User";
 import Representative from "./Representative";
 import Department from "./Department";
 import HandoverItem from "./HandoverItem";
 import HandoverRecord from "./HandoverRecord";
+import { getLocalStorage } from "../../utils/localStorage";
 
 const Dashboard: React.FC = () => {
   const tabs = [
@@ -40,10 +40,14 @@ const Dashboard: React.FC = () => {
   ];
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState("User");
+  const [activeTab, setActiveTab] = useState({
+    key: "User",
+    title: "Thông tin người dùng",
+  });
+  const user = getLocalStorage("user");
 
   const renderContent = () => {
-    switch (activeTab) {
+    switch (activeTab.key) {
       case "Department":
         return <Department />;
       case "User":
@@ -54,9 +58,8 @@ const Dashboard: React.FC = () => {
         return <HandoverRecord />;
       case "Representative":
         return <Representative />;
-
       default:
-        return <Dashboard />;
+        return null;
     }
   };
 
@@ -69,15 +72,15 @@ const Dashboard: React.FC = () => {
       >
         <div className="px-6 py-4 flex items-center space-x-2 font-bold text-lg">
           <img src={Logo} alt="Logo" className="h-6" />
-          <span>Inventoty Manager</span>
+          <span>Inventory Manager</span>
         </div>
         <nav className="flex-1 overflow-y-auto py-6">
           {tabs.map((tab: any, index) => (
             <div
               key={index}
-              onClick={() => setActiveTab(tab.key)}
+              onClick={() => setActiveTab({ key: tab.key, title: tab.title })}
               className={`relative flex items-center gap-3 py-3 pl-6 pr-4 text-gray-700 hover:bg-indigo-50 transition cursor-pointer
-    ${activeTab === tab.key ? "bg-indigo-100 font-semibold" : ""}`}
+    ${activeTab.key === tab.key ? "bg-indigo-100 font-semibold" : ""}`}
             >
               <span className="text-lg">{tab.icon}</span>
               <span className="text-base font-medium truncate">
@@ -86,17 +89,17 @@ const Dashboard: React.FC = () => {
             </div>
           ))}
         </nav>
-        <div className="bottom-[30px] absolute mx-2 flex">
+        <div className="bottom-[30px] absolute mx-2 flex gap-2">
           <div>
             <img
-              src={user_deafaute}
+              src="https://i.pravatar.cc/32"
               alt="avatar"
-              className="w-16 h-16 object-cover rounded-full my-2 "
+              className="w-12 h-12 object-cover rounded-full my-2 "
             />
           </div>
           <div className="my-3">
             <a href="/profile" className="font-bold">
-              Huy Hoàng
+              {user?.full_name}
             </a>
             <p className="opacity-60 text-xs my-1">Profile Manager</p>
           </div>
@@ -109,7 +112,7 @@ const Dashboard: React.FC = () => {
               onClick={() => setSidebarOpen(!sidebarOpen)}
               className="md:hidden p-2 rounded hover:bg-gray-100"
             >
-              1 <Menu size={20} />
+              <Menu size={20} />
             </button>
             <h1 className="font-semibold text-lg hidden md:block">Dashboard</h1>
           </div>
@@ -123,7 +126,7 @@ const Dashboard: React.FC = () => {
             />
           </div>
 
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4 mx-8">
             <button className="relative p-2 hover:bg-gray-100 rounded-lg">
               <Bell size={24} />
               <span className="absolute top-1 right-1 bg-blue-600 text-white text-xs rounded-full px-1">
@@ -139,7 +142,7 @@ const Dashboard: React.FC = () => {
                   className="w-8 h-8 rounded-full"
                 />
                 <span className="hidden md:block text-sm font-medium">
-                  Huy Hoàng
+                  {user?.full_name}
                 </span>
               </div>
               <div className="absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-150 z-50">
@@ -161,10 +164,10 @@ const Dashboard: React.FC = () => {
         </header>
 
         <div className="bg-gray-50 border-b px-4 md:px-8 py-3 text-sm font-bold">
-          Home / <span className="">{activeTab}</span>
+          Dashboard / <span>{activeTab.title}</span>
         </div>
-        <div className="flex-1  overflow-y-auto">
-          <div className="mx-8 ">{renderContent()}</div>
+        <div className="flex-1 overflow-y-auto">
+          <div className="mx-8">{renderContent()}</div>
         </div>
       </div>
     </div>

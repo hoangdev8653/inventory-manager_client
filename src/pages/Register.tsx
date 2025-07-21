@@ -2,20 +2,22 @@ import { IoPersonOutline } from "react-icons/io5";
 import { CiLock } from "react-icons/ci";
 import { MdOutlineEmail } from "react-icons/md";
 import departmentStore from "../store/department";
-import { useEffect } from "react";
-// import { useFormik } from "formik";
-// import { useNavigate } from "react-router-dom";
-// import { userStore } from "../store/userStore";
-
-import { register } from "../validations/user";
+import userStore from "../store/userStore";
+import { useEffect, useState } from "react";
+import { registerValidate } from "../validations/user";
 import { useFormik } from "formik";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function Register() {
-  const { data, getAllDepartment } = departmentStore(); //   const Navigate = useNavigate();
+  const { data, getAllDepartment } = departmentStore();
+  const { register } = userStore();
+  const [departmentId, setDepartmentId] = useState<string>();
+  const Navigate = useNavigate();
 
   useEffect(() => {
     getAllDepartment();
-  }, []);
+  }, [departmentId]);
 
   const formik = useFormik({
     initialValues: {
@@ -23,24 +25,22 @@ function Register() {
       email: "",
       password: "",
     },
-    validationSchema: register,
+    validationSchema: registerValidate,
     onSubmit: async (values) => {
-      // try {
-      //   const { role, error } = await login(values);
-      //   if (error) {
-      //     console.log("Đăng nhập không thành công:", error);
-      //   } else if (role) {
-      //     setTimeout(() => {
-      //       if (role === "admin") {
-      //         Navigate("/dashboard/product");
-      //       } else {
-      //         Navigate("/");
-      //       }
-      //     }, 3000);
-      //   }
-      // } catch (error) {
-      //   console.log("Đăng nhập không thành công:", error);
-      // }
+      try {
+        const result = await register({
+          ...values,
+          department_id: departmentId,
+        });
+        if (result.status === 201) {
+          toast.success("Đăng kí thành công");
+          setTimeout(() => {
+            Navigate("/login");
+          }, 3000);
+        }
+      } catch (error) {
+        console.log("Đăng kí không thành công", error);
+      }
     },
   });
 
@@ -49,7 +49,7 @@ function Register() {
       <div className="w-[500px] bg-white rounded-xl overflow-hidden px-[20px] py-[30px]">
         <form onSubmit={formik.handleSubmit} className="w-full">
           <span className="block text-4xl text-center pb-3">Register</span>
-          <div className="relative w-full border-b-2 border-solid mb-1">
+          <div className="relative w-full border-b-2 border-solid mb-2">
             <label
               htmlFor="full_name"
               className="text-base text-gray-600 pl-[7px] font-medium"
@@ -74,7 +74,7 @@ function Register() {
               {formik.errors.full_name}
             </div>
           )}
-          <div className="relative w-full border-b-2 border-solid  mb-1">
+          <div className="relative w-full border-b-2 border-solid  mb-2">
             <label
               htmlFor="email"
               className="text-base text-gray-600 pl-[7px] font-medium"
@@ -99,7 +99,7 @@ function Register() {
               {formik.errors.email}
             </div>
           )}
-          <div className="relative w-full border-b-2 border-solid mb-1">
+          <div className="relative w-full border-b-2 border-solid mb-2">
             <label
               htmlFor="password"
               className="text-base text-gray-600 pl-[7px] font-medium"
@@ -127,6 +127,8 @@ function Register() {
           <select
             className="border-solid border-gray-400 border-2 p-1"
             title="department"
+            value={departmentId}
+            onChange={(e) => setDepartmentId(e.target.value)}
           >
             {data?.content?.map((item: any, index: number) => (
               <option key={index} value={item?.id}>

@@ -6,6 +6,7 @@ import {
   register,
   updateRole,
 } from "../apis/auth";
+import { setLocalStorage } from "../utils/localStorage";
 
 const userStore = create((set) => ({
   data: [],
@@ -24,6 +25,8 @@ const userStore = create((set) => ({
   },
 
   register: async (data: any) => {
+    console.log(data);
+
     set({ loading: true, error: null });
     try {
       const response = await register(data);
@@ -42,6 +45,11 @@ const userStore = create((set) => ({
     try {
       const response = await login(data);
       set({ loading: false, error: null, data: response.data });
+      setLocalStorage("accessToken", response.data.accessToken);
+      setLocalStorage("refreshToken", response.data.refreshToken);
+      const { password, ...userContent } = response.data.content;
+      setLocalStorage("user", userContent);
+
       return response;
     } catch (error: any) {
       set({ loading: false, error: error.response.message || "Login Failed" });

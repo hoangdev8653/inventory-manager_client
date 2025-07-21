@@ -1,38 +1,34 @@
 import { IoPersonOutline } from "react-icons/io5";
 import { CiLock } from "react-icons/ci";
 import { MdOutlineEmail } from "react-icons/md";
-// import { useFormik } from "formik";
-// import { loginValidate } from "../validations/auth";
-// import { useNavigate } from "react-router-dom";
-// import {} from "../store/userStore"
-import { login } from "../validations/user";
+import { useNavigate } from "react-router-dom";
+import userStore from "../store/userStore";
+import { loginValidate } from "../validations/user";
 import { useFormik } from "formik";
+import { toast } from "react-toastify";
 
 function Login() {
-  //   const Navigate = useNavigate();
+  const Navigate = useNavigate();
+  const { login } = userStore();
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
     },
-    validationSchema: login,
+    validationSchema: loginValidate,
     onSubmit: async (values) => {
-      // try {
-      //   const { role, error } = await login(values);
-      //   if (error) {
-      //     console.log("Đăng nhập không thành công:", error);
-      //   } else if (role) {
-      //     setTimeout(() => {
-      //       if (role === "admin") {
-      //         Navigate("/dashboard/product");
-      //       } else {
-      //         Navigate("/");
-      //       }
-      //     }, 3000);
-      //   }
-      // } catch (error) {
-      //   console.log("Đăng nhập không thành công:", error);
-      // }
+      console.log(values);
+      try {
+        const result = await login(values);
+        if (result.status === 200) {
+          toast.success("Đăng nhập thành công");
+          setTimeout(() => {
+            Navigate("/");
+          }, 3000);
+        }
+      } catch (error) {
+        console.log("Đăng nhập thất bại", error);
+      }
     },
   });
 
