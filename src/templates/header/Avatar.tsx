@@ -16,13 +16,17 @@ function Avarta() {
       <Notification />
       <div className="flex items-center space-x-2 cursor-pointer group relative">
         <img
-          src="https://i.pravatar.cc/32"
+          src="https://i.pravatar.cc/32?u=123"
           alt="avatar"
           className="w-12 h-12 rounded-full"
         />
-        <span className="hidden md:block text-sm font-medium">
-          {user?.full_name}
-        </span>
+        <div>
+          <span className="hidden md:block text-sm font-medium">
+            {user?.username}
+          </span>
+          <span className="text-xs opacity-70">{user?.role}</span>
+        </div>
+
         <div className="absolute left-0 mt-32 w-40 bg-white border rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-150 z-50">
           <Link
             to="/thong-tin"

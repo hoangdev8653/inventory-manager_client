@@ -14,13 +14,7 @@ function HandoverRecord() {
 
   return (
     <div className="w-full">
-      <div className="flex justify-end">
-        <a href="/post">
-          <button className="bg-blue-500 hover:bg-blue-600 rounded-2xl text-white font-semibold my-2 px-5 py-2 shadow-md transition">
-            New Article
-          </button>
-        </a>
-      </div>
+      <div className="flex justify-end"></div>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg w-full  overflow-y-auto max-h-[500px]">
         <table className="w-full text-sm text-left rtl:text-right text-gray-100 bg-[#232c3b]">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -31,17 +25,18 @@ function HandoverRecord() {
               <th scope="col" className="px-6 py-3 text-center font-semibold">
                 Ghi chú
               </th>
+
               <th scope="col" className="px-6 py-3 text-center font-semibold">
-                Phòng ban A
+                Nhân viên kí bên A
               </th>
               <th scope="col" className="px-6 py-3 text-center font-semibold">
-                Phòng ban B
+                Nhân viên kí bên B
               </th>
               <th scope="col" className="px-6 py-3 text-center font-semibold">
-                Người kí bên A
+                Người đại diện bên A
               </th>
               <th scope="col" className="px-6 py-3 text-center font-semibold">
-                Người kí bên B
+                Người đại diện bên B
               </th>
               <th scope="col" className="px-6 py-3 text-center font-semibold">
                 Ngày Tạo
@@ -60,16 +55,20 @@ function HandoverRecord() {
                 >
                   <td className="px-6 py-4 text-center">{item?.so_ky_hieu}</td>
                   <td className="px-6 py-4 text-center">{item?.note}</td>
-                  <td className="px-6 py-4 text-center">{item.ben_a?.name}</td>
-                  <td className="px-6 py-4 text-center">{item.ben_b?.name}</td>
                   <td className="px-6 py-4 text-center">
-                    {item?.signed_a_by?.full_name}
+                    {item.user_a?.username}
                   </td>
                   <td className="px-6 py-4 text-center">
-                    {item?.signed_b_by?.full_name}
+                    {item.user_b?.username}
                   </td>
                   <td className="px-6 py-4 text-center">
-                    {formatDate(item?.created_at)}
+                    {item?.representative_a?.username}
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    {item?.representative_b?.username}
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    {formatDate(item?.handover_date)}
                   </td>
                   <td className="px-6 py-4 text-center">
                     <div className="flex gap-2 justify-center">

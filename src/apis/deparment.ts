@@ -22,6 +22,14 @@ export const createDepartment = async (data: any) => {
   });
 };
 
+export const updateDepartment = async (id: string, representatived: string) => {
+  return await axiosConfig({
+    method: "patch",
+    url: `/updateDepartment?id=${id}`,
+    data: { representatived },
+  });
+};
+
 export const deleteDepartment = async (id: string) => {
   return await axiosConfig({
     method: "delete",

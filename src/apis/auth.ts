@@ -37,3 +37,10 @@ export const deleteUser = async (id: string) => {
     url: `/user/deleteUser?id=${id}`,
   });
 };
+
+export const updateDepartmet = async (id: string) => {
+  return await axiosConfig({
+    method: "patch",
+    url: `updateDepartment?id=${id}`,
+  });
+};

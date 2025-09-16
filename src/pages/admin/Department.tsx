@@ -29,9 +29,7 @@ function Department() {
               <th scope="col" className="px-6 py-3 text-center font-semibold">
                 Tên phòng ban
               </th>
-              <th scope="col" className="px-6 py-3 text-center font-semibold">
-                Địa chỉ
-              </th>
+
               <th scope="col" className="px-6 py-3 text-center font-semibold">
                 ACTION
               </th>
@@ -46,7 +44,6 @@ function Department() {
                 >
                   <td className="px-6 py-4 text-center">{index + 1}</td>
                   <td className="px-6 py-4 text-center">{item?.name}</td>
-                  <td className="px-6 py-4 text-center">{item.address}</td>
                   <td className="px-6 py-4 text-center">
                     <div className="flex gap-2 justify-center">
                       <MdEdit className="text-xl cursor-pointer hover:opacity-60" />

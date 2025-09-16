@@ -1,14 +1,17 @@
-import { Navigate } from "react-router-dom";
-import { getLocalStorage } from "../utils/localStorage";
+import { Outlet } from "react-router-dom";
+import Footer from "./footer/Footer";
+import Header from "./header/Header";
 
-import React from "react";
-
-const PrivateRoute: React.FC<React.PropsWithChildren> = ({ children }) => {
-  const accessToken = getLocalStorage("accessToken");
-  if (!accessToken) {
-    return <Navigate to="/login" replace />;
-  }
-  return <>{children}</>;
+const PrivateLayout = () => {
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Header />
+      <main className="flex-grow">
+        <Outlet />
+      </main>
+      <Footer />
+    </div>
+  );
 };
 
-export default PrivateRoute;
+export default PrivateLayout;

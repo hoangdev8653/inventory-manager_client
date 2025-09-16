@@ -1,4 +1,5 @@
 const formatDate = (dateString: string) => {
+  if (!dateString) return "Chưa có ngày bàn giao";
   const date = new Date(dateString);
 
   const day = date.getDate();
